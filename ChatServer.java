@@ -86,7 +86,8 @@ class ChatHandler implements URLHandler {
 	      else {
 		numberOfExclamationMarks = 0;
 	      }
-              if (new String(Character.toChars(character)).equals("😂")) {
+              if (new String(Character.toChars(character)).equals("😂") ||
+		  new String(Character.toChars(character)).equals("😁")) {
                 analysis += " This message has a LOL vibe.";
               }
               if (new String(Character.toChars(character)).equals("🥹"))  { 
