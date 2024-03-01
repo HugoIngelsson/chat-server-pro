@@ -54,7 +54,7 @@ class ChatHandler implements URLHandler {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
           writer.write(this.chatHistory);
-          return "Data written to " + shouldBeFileName[1] + "in 'chat-history' folder.";
+          return "Data written to " + shouldBeFileName[1] + " in 'chat-history' folder.";
         } catch (IOException e) {
           e.printStackTrace();
           return "Error: Something wrong happen during file save, check StackTrace";
@@ -75,7 +75,7 @@ class ChatHandler implements URLHandler {
           String analysis = "";
           index += 1;
           int[] codePoints = new int[0];
-          if (line.contains(shouldBeUser[1]))
+          if (line.startsWith(shouldBeUser[1] + ":")) {
             codePoints = line.codePoints().toArray();
             int characterIndex = 0;
             while (characterIndex < codePoints.length) {
@@ -83,21 +83,24 @@ class ChatHandler implements URLHandler {
               if (character == (int) '!') {
                 numberOfExclamationMarks += 1;
               }
+	      else {
+		numberOfExclamationMarks = 0;
+	      }
               if (new String(Character.toChars(character)).equals("😂")) {
-                analysis = " This message has a LOL vibe.";
+                analysis += " This message has a LOL vibe.";
               }
-              if (new String(Character.toChars(character)).equals("🥹")) {
-                analysis = " This message has a awwww vibe.";
-              } else {
+              if (new String(Character.toChars(character)).equals("🥹"))  { 
+                analysis += " This message has a awwww vibe.";
+              }
               characterIndex += 1;
-               }
-            }
+	    }
             if (numberOfExclamationMarks > 2) {
               analysis += " This message ends forcefully.";
             }
             matchingMessages += line + analysis + "\n\n";
-          }
+	  }
         }
+      }
       
       return matchingMessages;
     }
